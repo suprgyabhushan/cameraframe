@@ -13,6 +13,8 @@ var toggleFullScreenButton;
 var switchCameraButton;
 var amountOfCameras = 0;
 var currentFacingMode = 'environment';
+const cameraOutput = document.querySelector("#camera--output"),
+const cameraSensor = document.querySelector("#camera--sensor"),
 
 document.addEventListener("DOMContentLoaded", function(event) {
 
@@ -64,7 +66,7 @@ function initCameraUI() {
     // https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Techniques/Using_the_button_role
 
     takePhotoButton.addEventListener("click", function() {
-        takeSnapshotUI();
+        //takeSnapshotUI();
         takeSnapshot();        
     });
 
@@ -197,33 +199,39 @@ function initCameraStream() {
 function takeSnapshot() {
     
     // if you'd like to show the canvas add it to the DOM
-    var canvas = document.createElement('canvas');
 
-    var width = video.videoWidth;
-    var height = video.videoHeight;
+    cameraSensor.width = cameraView.videoWidth;
+    cameraSensor.height = cameraView.videoHeight;
+    cameraSensor.getContext("2d").drawImage(cameraView, 0, 0);
+    cameraOutput.src = cameraSensor.toDataURL("image/webp");
+    cameraOutput.classList.add("taken");
+    //var canvas = document.createElement('canvas');
 
-    canvas.width = width;
-    canvas.height = height;
+    //var width = video.videoWidth;
+    //var height = video.videoHeight;
 
-    context = canvas.getContext('2d');
-    context.drawImage(video, 0, 0, width, height);
+    //canvas.width = width;
+    //canvas.height = height;
+
+    //context = canvas.getContext('2d');
+    //context.drawImage(video, 0, 0, width, height);
 
     // polyfil if needed https://github.com/blueimp/JavaScript-Canvas-to-Blob
     
     // https://developers.google.com/web/fundamentals/primers/promises
     // https://stackoverflow.com/questions/42458849/access-blob-value-outside-of-canvas-toblob-async-function
-    function getCanvasBlob(canvas) {
-        return new Promise(function(resolve, reject) {
-            canvas.toBlob(function(blob) { resolve(blob) }, 'image/jpeg');
-        })
-    }
+    //function getCanvasBlob(canvas) {
+      //  return new Promise(function(resolve, reject) {
+        //    canvas.toBlob(function(blob) { resolve(blob) }, 'image/jpeg');
+        //})
+    //}
 
     // some API's (like Azure Custom Vision) need a blob with image data
-    getCanvasBlob(canvas).then(function(blob) {
+    //getCanvasBlob(canvas).then(function(blob) {
 
         // do something with the image blob
 
-    });
+    //});
 
 }
 
