@@ -13,8 +13,8 @@ var toggleFullScreenButton;
 var switchCameraButton;
 var amountOfCameras = 0;
 var currentFacingMode = 'environment';
-const cameraOutput = document.querySelector("#camera--output"),
-const cameraSensor = document.querySelector("#camera--sensor"),
+var cameraSensor;
+var cameraOutput;
 
 document.addEventListener("DOMContentLoaded", function(event) {
 
@@ -61,6 +61,8 @@ function initCameraUI() {
     takePhotoButton = document.getElementById('takePhotoButton');
     toggleFullScreenButton = document.getElementById('toggleFullScreenButton');
     switchCameraButton = document.getElementById('switchCameraButton');
+    cameraSensor = document.getElementById('camerasensor');
+    cameraOutput = document.getElementById('cameraoutput');
     
     // https://developer.mozilla.org/nl/docs/Web/HTML/Element/button
     // https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Techniques/Using_the_button_role
@@ -200,38 +202,40 @@ function takeSnapshot() {
     
     // if you'd like to show the canvas add it to the DOM
 
-    cameraSensor.width = cameraView.videoWidth;
-    cameraSensor.height = cameraView.videoHeight;
-    cameraSensor.getContext("2d").drawImage(cameraView, 0, 0);
+    /*cameraSensor.width = video.videoWidth;
+    cameraSensor.height = video.videoHeight;
+    cameraSensor.getContext("2d").drawImage(video, 0, 0);
     cameraOutput.src = cameraSensor.toDataURL("image/webp");
+    cameraOutput.classList.add("taken");*/
+    var canvas = document.createElement('canvas');
+
+    var width = video.videoWidth;
+    var height = video.videoHeight;
+
+    canvas.width = width;
+    canvas.height = height;
+
+    context = canvas.getContext('2d');
+    context.drawImage(video, 0, 0, width, height);
+    cameraOutput.src = canvas.toDataURL("image/webp");
     cameraOutput.classList.add("taken");
-    //var canvas = document.createElement('canvas');
-
-    //var width = video.videoWidth;
-    //var height = video.videoHeight;
-
-    //canvas.width = width;
-    //canvas.height = height;
-
-    //context = canvas.getContext('2d');
-    //context.drawImage(video, 0, 0, width, height);
 
     // polyfil if needed https://github.com/blueimp/JavaScript-Canvas-to-Blob
     
     // https://developers.google.com/web/fundamentals/primers/promises
     // https://stackoverflow.com/questions/42458849/access-blob-value-outside-of-canvas-toblob-async-function
-    //function getCanvasBlob(canvas) {
-      //  return new Promise(function(resolve, reject) {
-        //    canvas.toBlob(function(blob) { resolve(blob) }, 'image/jpeg');
-        //})
-    //}
+    /*function getCanvasBlob(canvas) {
+      return new Promise(function(resolve, reject) {
+        canvas.toBlob(function(blob) { resolve(blob) }, 'image/jpeg');
+        })
+    }*/
 
     // some API's (like Azure Custom Vision) need a blob with image data
-    //getCanvasBlob(canvas).then(function(blob) {
+    /*getCanvasBlob(canvas).then(function(blob) {
 
         // do something with the image blob
 
-    //});
+    });*/
 
 }
 
