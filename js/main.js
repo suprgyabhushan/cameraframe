@@ -216,7 +216,7 @@ function takeSnapshot() {
     canvas.height = height;
 
     context = canvas.getContext('2d');
-    context.drawImage(video, 0, 0, width, height);
+    context.drawImage(video, 0, 0);
     cameraOutput.src = canvas.toDataURL("image/webp");
     cameraOutput.classList.add("taken");
 

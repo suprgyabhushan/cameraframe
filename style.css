@@ -42,8 +42,7 @@ body {
     height: 100%;
     width: 100%;
     object-fit: cover;
-    transform: scaleX(-1);
-    filter: FlipH;
+    
 }
 
 .taken{
@@ -63,7 +62,7 @@ body {
 button {
     outline: none;
     position: absolute;
-    color: white;
+    color: black;
     display: block;
     opacity: 1;
     background: transparent;
@@ -85,6 +84,7 @@ button {
     border-radius: 50%;
     background-color: rgba(0, 0, 0, 0.5);
 }
+
 
 #takePhotoButton:active {
     background-color: #fff;
