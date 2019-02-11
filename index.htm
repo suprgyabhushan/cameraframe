@@ -5,7 +5,7 @@
   <meta name="description" content="Smart Device Camera Template for HTML, CSS, JS and WebRTC">
   <meta name="keywords" content="HTML,CSS,JavaScript, WebRTC, Camera">
   <meta name="author" content="Kasper Kamperman">
-  <title>Hello World</title>
+  <title>Camera Frame</title>
   <script type="text/javascript" src="js/clmtrackr.js"></script>
 
   <link rel="stylesheet" type="text/css" href="style.css">
@@ -13,8 +13,9 @@
 <body>
   <div id="container">
     <div id="vid_container">
-        <canvas id="camerasensor"></canvas>
-        <video id="video" autoplay playsinline></video>
+        <!--<canvas id="camerasensor" width="320" height="240"></canvas>-->
+        <video id="video" width="320" height="240" autoplay playsinline></video>
+        
         
         <div id="video_overlay"></div>
     </div>
@@ -22,7 +23,7 @@
         
         <button id="switchCameraButton" name="switch Camera" type="button" aria-pressed="false"></button>
         <button id="takePhotoButton" name="take Photo" type="button">	</button>
-        
+        <button id="start" name="facetrack" type="button">	</button>
         <button id="toggleFullScreenButton" name="toggle FullScreen" type="button" aria-pressed="false"></button>
         <img src="//:0" alt="" id="cameraoutput">
     </div>
@@ -32,6 +33,8 @@
   <script src="js/screenfull.min.js"></script>
   <script src="js/howler.core.min.js"></script>
   <script src="js/main.js"></script>
+  
+  
   
 </body>
 </html>

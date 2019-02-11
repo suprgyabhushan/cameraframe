@@ -16,6 +16,10 @@ var currentFacingMode = 'environment';
 var cameraSensor;
 var cameraOutput;
 
+
+
+				
+
 document.addEventListener("DOMContentLoaded", function(event) {
 
     // do some WebRTC checks before creating the interface
@@ -35,6 +39,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
                        
                 initCameraUI();
                 initCameraStream();
+                drawloop();
             } 
         }
         
@@ -54,6 +59,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
 });
 
+
 function initCameraUI() {
     
     video = document.getElementById('video');
@@ -63,6 +69,11 @@ function initCameraUI() {
     switchCameraButton = document.getElementById('switchCameraButton');
     cameraSensor = document.getElementById('camerasensor');
     cameraOutput = document.getElementById('cameraoutput');
+
+    var ctracker = new clm.tracker();
+    ctracker.init();
+    ctracker.start(video);
+    //drawloop();
     
     // https://developer.mozilla.org/nl/docs/Web/HTML/Element/button
     // https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Techniques/Using_the_button_role
@@ -198,6 +209,21 @@ function initCameraStream() {
 
 }
 
+function drawLoop() {
+    var canvas = document.createElement('canvas');
+
+    var width = video.videoWidth;
+    var height = video.videoHeight;
+
+    canvas.width = width;
+    canvas.height = height;
+
+    context = canvas.getContext('2d');
+    requestAnimationFrame(drawLoop);
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    ctracker.draw(canvas);
+}
+
 function takeSnapshot() {
     
     // if you'd like to show the canvas add it to the DOM
@@ -207,6 +233,8 @@ function takeSnapshot() {
     cameraSensor.getContext("2d").drawImage(video, 0, 0);
     cameraOutput.src = cameraSensor.toDataURL("image/webp");
     cameraOutput.classList.add("taken");*/
+
+       
     var canvas = document.createElement('canvas');
 
     var width = video.videoWidth;
@@ -219,6 +247,8 @@ function takeSnapshot() {
     context.drawImage(video, 0, 0);
     cameraOutput.src = canvas.toDataURL("image/webp");
     cameraOutput.classList.add("taken");
+
+    
 
     // polyfil if needed https://github.com/blueimp/JavaScript-Canvas-to-Blob
     
@@ -272,3 +302,7 @@ function createClickFeedbackUI() {
 
     }
 }
+
+
+  
+
