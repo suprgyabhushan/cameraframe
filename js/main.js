@@ -58,7 +58,7 @@ function initCameraUI() {
     
     video = document.getElementById('video');
 
-    takePhotoButton = document.getElementById('takePhotoButton');
+    //takePhotoButton = document.getElementById('takePhotoButton');
     toggleFullScreenButton = document.getElementById('toggleFullScreenButton');
     switchCameraButton = document.getElementById('switchCameraButton');
     cameraSensor = document.getElementById('camerasensor');
@@ -67,10 +67,10 @@ function initCameraUI() {
     // https://developer.mozilla.org/nl/docs/Web/HTML/Element/button
     // https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Techniques/Using_the_button_role
 
-    takePhotoButton.addEventListener("click", function() {
+    //takePhotoButton.addEventListener("click", function() {
         //takeSnapshotUI();
-        takeSnapshot();        
-    });
+      //  takeSnapshot();        
+    //});
 
     // -- fullscreen part
 
