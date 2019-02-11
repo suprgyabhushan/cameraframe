@@ -24,7 +24,7 @@
         <button id="switchCameraButton" name="switch Camera" type="button" aria-pressed="false"></button>
         <button id="takePhotoButton" name="take Photo" type="button">	</button>
         <button id="toggleFullScreenButton" name="toggle FullScreen" type="button" aria-pressed="false"></button>
-        <!--<button id="startFaceTrackingButton" name=" start FaceTracking" type="button" onclick="startVideo()"></button>-->
+        <button id="startFaceTrackingButton" name=" start FaceTracking" type="button" onclick="startVideo()"></button>
         <img src="//:0" alt="" id="cameraoutput">
     </div>
   </div> 
@@ -52,7 +52,9 @@
     context.clearRect(0, 0, canvas.width, canvas.height);
     ctracker.draw(canvas);
   }
-  drawLoop();
+  function startVideo() {
+    drawLoop();
+  }
   </script>
 
   
