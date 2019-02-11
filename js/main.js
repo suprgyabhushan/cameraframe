@@ -39,7 +39,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
                        
                 initCameraUI();
                 initCameraStream();
-                drawloop();
+                //drawloop();
             } 
         }
         
@@ -70,9 +70,7 @@ function initCameraUI() {
     cameraSensor = document.getElementById('camerasensor');
     cameraOutput = document.getElementById('cameraoutput');
 
-    var ctracker = new clm.tracker();
-    ctracker.init();
-    ctracker.start(video);
+    
     //drawloop();
     
     // https://developer.mozilla.org/nl/docs/Web/HTML/Element/button
@@ -209,7 +207,7 @@ function initCameraStream() {
 
 }
 
-function drawLoop() {
+/*function drawLoop() {
     var canvas = document.createElement('canvas');
 
     var width = video.videoWidth;
@@ -222,7 +220,7 @@ function drawLoop() {
     requestAnimationFrame(drawLoop);
     context.clearRect(0, 0, canvas.width, canvas.height);
     ctracker.draw(canvas);
-}
+}*/
 
 function takeSnapshot() {
     
