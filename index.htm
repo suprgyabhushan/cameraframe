@@ -6,9 +6,6 @@
   <meta name="keywords" content="HTML,CSS,JavaScript, WebRTC, Camera">
   <meta name="author" content="Kasper Kamperman">
   <title>Mobile First Camera Template</title>
-  <script type="text/javascript" src="js/jeelizFaceFilter.js"></script>
-  <script type="text/javascript" src="js/three.min.js"></script>
-  <script type="text/javascript" src="js/JeelizThreejsHelper.js"></script>
   <script type="text/javascript" src="js/clmtrackr.js"></script>
 
   <link rel="stylesheet" type="text/css" href="style.css">
@@ -16,10 +13,9 @@
 <body>
   <div id="container">
     <div id="vid_container">
-        <!--<canvas id="camerasensor"></canvas>-->
-        <canvas id="camerasensor" width="400" height="300"></canvas>
+       
         <video id="video" autoplay playsinline></video>
-        
+        <canvas id="camerasensor" width="400" height="300"></canvas>
         <div id="video_overlay"></div>
     </div>
     <div id="gui_controls">
@@ -36,7 +32,7 @@
   <script src="js/screenfull.min.js"></script>
   <script src="js/howler.core.min.js"></script>
   <script src="js/main.js"></script>
-  <script type="text/javascript">
+  <!--<script type="text/javascript">
   var videoInput = document.getElementById('video');
   var ctracker = new clm.tracker();
   ctracker.init();
@@ -60,6 +56,6 @@
     ctracker.draw(canvasInput);
   }
   drawLoop();
-  </script>
+  </script>-->
 </body>
 </html>
