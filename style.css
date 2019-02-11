@@ -86,8 +86,8 @@ button {
 }
 
 #startFaceTrackingButton {
-    left: 96px;
-    top: 132px;
+    left: calc(50% - 40px);
+    top: calc(50% - 40px);
     width: 80px;
     height: 80px;
     border-radius: 50%;
