@@ -11,8 +11,8 @@ body {
 
 #camerasensor{
     position: absolute;
-	top: 195px;
-	left: 410px;
+	top: 0px;
+	left: 0px;
     -o-transform : scaleX(-1);
 	-webkit-transform : scaleX(-1);
 	transform : scaleX(-1);
@@ -21,9 +21,7 @@ body {
 	}
 
 #video{
-    position: absolute;
-	top: 195px;
-	left: 410px;
+    
     -o-transform : scaleX(-1);
 	-webkit-transform : scaleX(-1);
 	transform : scaleX(-1);
