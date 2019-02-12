@@ -20,21 +20,14 @@ body {
 	filter : fliph; /*IE*/
 	}
 
-#video{
-    
-    -o-transform : scaleX(-1);
-	-webkit-transform : scaleX(-1);
-	transform : scaleX(-1);
-	-ms-filter : fliph; /*IE*/
-	filter : fliph; /*IE*/
-    }
 
-/*#video{
-    width: 100%; 
-    height: 100%;
+
+#video{
+    /*width: 100%; 
+    height: 100%;*/
     object-fit: cover; 
     z-index: 0; 
-}*/
+}
 
 #gui_controls {
     position: fixed;
