@@ -1,0 +1,69 @@
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, user-scalable=yes, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Smart Device Camera Template for HTML, CSS, JS and WebRTC">
+  <meta name="keywords" content="HTML,CSS,JavaScript, WebRTC, Camera">
+  <meta name="author" content="Kasper Kamperman">
+  <title>Camera Frame</title>
+  <script type="text/javascript" src="js/clmtrackr.js"></script>
+  <!-- Load TensorFlow.js -->
+  <script src="https://unpkg.com/@tensorflow/tfjs"></script>
+  <!-- Load Posenet -->
+  <script src="https://unpkg.com/@tensorflow-models/posenet">
+  </script>
+
+  <link rel="stylesheet" type="text/css" href="style1.css">
+</head>
+<body>
+  <div id="container">
+    <div id="vid_container">
+        
+        <video id="video" autoplay playsinline></video>
+        
+        <div id="video_overlay"></div>
+    </div>
+    <div id="gui_controls">
+        
+        <button id="switchCameraButton" name="switch Camera" type="button" aria-pressed="false"></button>
+        <button id="takePhotoButton" name="take Photo" type="button" onclick="start()">	</button>
+        <button id="toggleFullScreenButton" name="toggle FullScreen" type="button" aria-pressed="false"></button>
+       
+        <img src="//:0" alt="" id="cameraoutput">
+    </div>
+  </div> 
+  <script src="js/DetectRTC.min.js"></script>
+  <script src="js/adapter.min.js"></script>  
+  <script src="js/screenfull.min.js"></script>
+  <script src="js/howler.core.min.js"></script>
+  <script src="js/main.js"></script>
+  <script type="text/javascript">
+    function start()
+    {
+    var video = document.getElementById('video');
+   
+    var canvas = document.createElement('canvas');
+
+    var width = video.videoWidth;
+    var height = video.videoHeight;
+
+    canvas.width = width;
+    canvas.height = height;
+
+    context = canvas.getContext('2d');
+    context.drawImage(video, 0, 0);
+    cameraOutput.src = canvas.toDataURL("image/webp");
+    cameraOutput.classList.add("taken");
+    }
+
+  </script>
+ 
+ 
+
+
+  
+
+  
+  
+</body>
+</html>
