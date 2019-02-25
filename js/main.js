@@ -19,7 +19,6 @@ var toggleFullScreenButton;
 var switchCameraButton;
 var amountOfCameras = 0;
 var currentFacingMode = 'environment';
-var cameraSensor;
 var cameraOutput;
 var video;
 
@@ -75,18 +74,14 @@ function initCameraUI() {
     video = document.getElementById('video');
     var videoWidth = video.width;
     var videoHeight = video.height;
-    //net = await posenet.load(0.75);
+    
 
-    //takePhotoButton = document.getElementById('takePhotoButton');
+    takePhotoButton = document.getElementById('takePhotoButton');
     toggleFullScreenButton = document.getElementById('toggleFullScreenButton');
     switchCameraButton = document.getElementById('switchCameraButton');
-    cameraSensor = document.getElementById('camerasensor');
     cameraOutput = document.getElementById('cameraoutput');
 
-    //detectPoseInRealTime(video, net);
-
     
-    //drawloop();
     
     // https://developer.mozilla.org/nl/docs/Web/HTML/Element/button
     // https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Techniques/Using_the_button_role
@@ -222,32 +217,11 @@ function initCameraStream() {
 
 }
 
-/*function drawLoop() {
-    var canvas = document.createElement('canvas');
-
-    var width = video.videoWidth;
-    var height = video.videoHeight;
-
-    canvas.width = width;
-    canvas.height = height;
-
-    context = canvas.getContext('2d');
-    requestAnimationFrame(drawLoop);
-    context.clearRect(0, 0, canvas.width, canvas.height);
-    ctracker.draw(canvas);
-}*/
-
 function takeSnapshot() {
     
     // if you'd like to show the canvas add it to the DOM
 
-    /*cameraSensor.width = video.videoWidth;
-    cameraSensor.height = video.videoHeight;
-    cameraSensor.getContext("2d").drawImage(video, 0, 0);
-    cameraOutput.src = cameraSensor.toDataURL("image/webp");
-    cameraOutput.classList.add("taken");*/
-
-       
+         
     var canvas = document.createElement('canvas');
 
     var width = video.videoWidth;
@@ -316,94 +290,7 @@ function createClickFeedbackUI() {
     }
 }
 
-/*function detectPoseInRealTime(video, net) {
-  const canvas = document.getElementById('camerasensor');
-  const ctx = canvas.getContext('2d');
-  // since images are being fed from a webcam
-  const flipHorizontal = true;
 
-  canvas.width = videoWidth;
-  canvas.height = videoHeight;
-
-  async function poseDetectionFrame() {
-    if (guiState.changeToArchitecture) {
-      // Important to purge variables and free up GPU memory
-      guiState.net.dispose();
-
-      // Load the PoseNet model weights for either the 0.50, 0.75, 1.00, or 1.01
-      // version
-      guiState.net = await posenet.load(+guiState.changeToArchitecture);
-
-      guiState.changeToArchitecture = null;
-    }
-
-    // Begin monitoring code for frames per second
-    //stats.begin();
-
-    // Scale an image down to a certain factor. Too large of an image will slow
-    // down the GPU
-    const imageScaleFactor = guiState.input.imageScaleFactor;
-    const outputStride = +guiState.input.outputStride;
-
-    let poses = [];
-    let minPoseConfidence;
-    let minPartConfidence;
-    switch (guiState.algorithm) {
-      case 'single-pose':
-        const pose = await guiState.net.estimateSinglePose(
-            video, imageScaleFactor, flipHorizontal, outputStride);
-        poses.push(pose);
-
-        minPoseConfidence = +guiState.singlePoseDetection.minPoseConfidence;
-        minPartConfidence = +guiState.singlePoseDetection.minPartConfidence;
-        break;
-      case 'multi-pose':
-        poses = await guiState.net.estimateMultiplePoses(
-            video, imageScaleFactor, flipHorizontal, outputStride,
-            guiState.multiPoseDetection.maxPoseDetections,
-            guiState.multiPoseDetection.minPartConfidence,
-            guiState.multiPoseDetection.nmsRadius);
-
-        minPoseConfidence = +guiState.multiPoseDetection.minPoseConfidence;
-        minPartConfidence = +guiState.multiPoseDetection.minPartConfidence;
-        break;
-    }
-
-    ctx.clearRect(0, 0, videoWidth, videoHeight);
-
-    if (guiState.output.showVideo) {
-      ctx.save();
-      ctx.scale(-1, 1);
-      ctx.translate(-videoWidth, 0);
-      ctx.drawImage(video, 0, 0, videoWidth, videoHeight);
-      ctx.restore();
-    }
-
-    // For each pose (i.e. person) detected in an image, loop through the poses
-    // and draw the resulting skeleton and keypoints if over certain confidence
-    // scores
-    poses.forEach(({score, keypoints}) => {
-      if (score >= minPoseConfidence) {
-        if (guiState.output.showPoints) {
-          drawKeypoints(keypoints, minPartConfidence, ctx);
-        }
-        if (guiState.output.showSkeleton) {
-          drawSkeleton(keypoints, minPartConfidence, ctx);
-        }
-        if (guiState.output.showBoundingBox) {
-          drawBoundingBox(keypoints, ctx);
-        }
-      }
-    });
-
-    // End monitoring code for frames per second
-    //stats.end();
-
-    requestAnimationFrame(poseDetectionFrame);
-  }
-
-  poseDetectionFrame();
-}*/
 
 
 
