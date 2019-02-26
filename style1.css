@@ -23,8 +23,6 @@ body {
 
 
 #video{
-    width: 100%; 
-    height: 100%;
     -moz-transform: scaleX(-1)
 	-o-transform : scaleX(-1);
 	-webkit-transform : scaleX(-1);
@@ -33,6 +31,18 @@ body {
 	filter : fliph; 
     object-fit: cover; 
     z-index: 0;
+}
+
+#cameramotion{
+    position: absolute;
+	top: 0px;
+	left: 75px;
+    border: solid 1px black;
+    -o-transform : scaleX(-1);
+	-webkit-transform : scaleX(-1);
+	transform : scaleX(-1);
+	-ms-filter : fliph; /*IE*/
+	filter : fliph; /*IE*/
 }
 
 
@@ -54,7 +64,6 @@ body {
     left: 0;
     right: 0;
     bottom: 0;
-
     z-index: 10;
     background-color:#111;
 }
@@ -116,6 +125,14 @@ button {
 
 #takePhotoButton:active {
     background-color: #fff;
+}
+
+#startFaceTrackingButton {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background-image: url('img/baseline_face_white_18dp.png');
+    background-color: rgba(0, 0, 0, 0.5);
 }
 
 #toggleFullScreenButton {

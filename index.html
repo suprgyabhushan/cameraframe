@@ -13,7 +13,7 @@
   <script src="https://unpkg.com/@tensorflow-models/posenet">
   </script>
 
-  <link rel="stylesheet" type="text/css" href="style.css">
+  <link rel="stylesheet" type="text/css" href="style1.css">
 </head>
 <body>
   <div id="container">
@@ -32,17 +32,16 @@
         }
         </style>
         
-        
-        
         <div id="video_overlay"></div>
     </div>
     <div id="gui_controls">
         
         <button id="switchCameraButton" name="switch Camera" type="button" aria-pressed="false"></button>
-        <!--<button id="takePhotoButton" name="take Photo" type="button">	</button>-->
-        <button id="toggleFullScreenButton" name="toggle FullScreen" type="button" aria-pressed="false"></button>
+        <button id="takePhotoButton" name="take Photo" type="button" onclick="take1()">	</button>
         <button id="startFaceTrackingButton" name=" start FaceTracking" type="button" onclick="start()"></button>
-        <!--<img src="//:0" alt="" id="cameraoutput">-->
+        <button id="toggleFullScreenButton" name="toggle FullScreen" type="button" aria-pressed="false"></button>
+       
+        <img src="//:0" alt="" id="cameraoutput">
     </div>
   </div> 
   <script src="js/DetectRTC.min.js"></script>
@@ -50,129 +49,112 @@
   <script src="js/screenfull.min.js"></script>
   <script src="js/howler.core.min.js"></script>
   <script src="js/main.js"></script>
- 
   <script src="js/creative_coding.js"></script>
   <script type="text/javascript">
+
     var video = document.getElementById('video');
     var w = video.width;
-    var w1 = w/2;
     var h = video.height;
     var overlay = document.getElementById('camerasensor');
+    
     var ctx = overlay.getContext('2d');
-    //var blendoverlay = document.getElementById('camerablend');
-    //var blendcontext = blend.getContext('2d'); 
     
-    
-    
+    var cameraOutput = document.getElementById('cameraoutput');
       
     var ctrack = new clm.tracker();
     ctrack.init();
     var trackingStarted = false;
 
     function start() {
-    video.play();
-    ctrack.start(video);
-    trackingStarted = true;
-    drawLoop();
+        video.play();
+        ctrack.start(video);
+        trackingStarted = true;
+        
+       
+        drawLoop();
+        
     }
- 
-    
-    function drawLoop() {    
+    function drawLoop() {  
         requestAnimationFrame(drawLoop);
         ctx.clearRect(0, 0, w, h);
-        if (ctrack.getCurrentPosition()) {
-        ctrack.draw(overlay);
-        const eyesRect = getEyesRectangle(ctrack.getCurrentPosition());
-        ctx.strokeStyle = 'red';
-        ctx.strokeRect(eyesRect[0], eyesRect[1], eyesRect[2], eyesRect[3]);
+        if (ctrack.getCurrentPosition())
+        {
+            
+            ctrack.draw(overlay);
+            const eyesRect = getEyesRectangle(ctrack.getCurrentPosition());
+            ctx.strokeStyle = 'red';
+            ctx.strokeRect(eyesRect[0], eyesRect[1], eyesRect[2], eyesRect[3]);
+            // The video might internally have a different size, so we need these
+            // factors to rescale the eyes rectangle before cropping:
+            const resizeFactorX = video.videoWidth / video.width;
+            const resizeFactorY = video.videoHeight / video.height;
 
-        // The video might internally have a different size, so we need these
-        // factors to rescale the eyes rectangle before cropping:
-        const resizeFactorX = video.videoWidth / video.width;
-        const resizeFactorY = video.videoHeight / video.height;
+            // Crop the eyes from the video and paste them in the eyes canvas:
+            const eyesCanvas = $('#eyes')[0];
+            const eyesCC = eyesCanvas.getContext('2d');
 
-        // Crop the eyes from the video and paste them in the eyes canvas:
-        const eyesCanvas = $('#eyes')[0];
-        const eyesCC = eyesCanvas.getContext('2d');
-
-        eyesCC.drawImage(
-        video,
-        eyesRect[0] * resizeFactorX, eyesRect[1] * resizeFactorY,
-        eyesRect[2] * resizeFactorX, eyesRect[3] * resizeFactorY,
-        0, 0, eyesCanvas.width, eyesCanvas.height
-        );
+            eyesCC.drawImage(
+                video,
+                eyesRect[0] * resizeFactorX, eyesRect[1] * resizeFactorY,
+                eyesRect[2] * resizeFactorX, eyesRect[3] * resizeFactorY,
+                0, 0, eyesCanvas.width, eyesCanvas.height
+            );
+            
         }
+        
     }
 
     function getEyesRectangle(positions) {
-    const minX = positions[23][0] - 5;
-    const maxX = positions[28][0] + 5;
-    const minY = positions[24][1] - 5;
-    const maxY = positions[26][1] + 5;
+        const minX = positions[23][0] - 5;
+        const maxX = positions[28][0] + 5;
+        const minY = positions[24][1] - 5;
+        const maxY = positions[26][1] + 5;
 
-    const width = maxX - minX;
-    const height = maxY - minY;
+        const width = maxX - minX;
+        const height = maxY - minY;
 
-    return [minX, minY, width, height];
+        return [minX, minY, width, height];
     }
-    //var scalefactor = 40;
-    /*var previous_frame = [];
-    var threshold = 50;
-    var sample_size = 50;
-    function motionDetection()
-    {
-        var motion = [];
-        ctx.drawImage(video, 0, 0, w, h);    
-        var data = ctx.getImageData(0, 0, w, h).data;
-        console.log(data);
-        //ctx.background(0);    
-        for (var y = 0; y < h; y+= sample_size)
-        {
-
-            for (var x = 0; x < w; x+= sample_size)
-            {
-                var pos = (x + y * w) * 4;
-                var r = data[pos];
-                var g = data[pos+1];
-                var b = data[pos+2];
-
-                if(previous_frame[pos] && Math.abs(previous_frame[pos] - r) > threshold)
-                {
-                    //ctx.fillStyle = 'rgb(r, g, b)';
-                    //ctx.fillRect(x, y, 40, 40);
-                    motion.push({x: x, y: y, r: r, g: g, b: b});
-                    //ctx.fillStyle = 'rgb(r, g, b)';
-                    //ctx.fillRect(x, y, sample_size, sample_size);
-                }
-                previous_frame[pos] = r;
-            }
-        }
-        return motion;
-    }
-
-    function draw()
-    {
-
-        //ctx.background(250);
-        var motion = motionDetection();
-        for (i = 0; i < motion.length; i++)
-        {
-            var m = motion[i];
-            ctx.fillStyle = 'rgb(m.r, m.g, m.b)';
-            ctx.fillEllipse(m.x, m.y, sample_size, sample_size);
-        }
-    }*/
-    
+   
     function draw1()
     {
 
         ctx.drawImage(video, 150, 0, 900, 1500, 0, 0, 850, 850);    
     }
 
-  
+    function take1()
+    {
+        const eyesRect1 = getEyesRectangle(ctrack.getCurrentPosition());
+        if(eyesRect1[0] > 130)
+        {
+            take();
+        }
+        
+    }
 
+    
+    function take()
+    {
+        var video = document.getElementById('video');
+        var cameraOutput = document.getElementById('cameraoutput');
+        var canvas = document.createElement('canvas');
+
+        var width = video.videoWidth;
+        var height = video.videoHeight;
+
+        canvas.width = width;
+        canvas.height = height;
+
+        context = canvas.getContext('2d');
+        context.drawImage(video, 0, 0);
+        cameraOutput.src = canvas.toDataURL("image/webp");
+        cameraOutput.classList.add("taken");
+    }
 
   </script>
+ 
+ 
+
 
   
 
