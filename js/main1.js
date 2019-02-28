@@ -23,12 +23,6 @@ var cameraOutput;
 var video;
 
 
-
-
-
-
-
-
 document.addEventListener("DOMContentLoaded", function(event) {
 
     // do some WebRTC checks before creating the interface
@@ -77,7 +71,6 @@ function initCameraUI() {
 
 
     takePhotoButton = document.getElementById('takePhotoButton');
-    toggleFullScreenButton = document.getElementById('toggleFullScreenButton');
     switchCameraButton = document.getElementById('switchCameraButton');
     cameraOutput = document.getElementById('cameraoutput');
 
@@ -93,7 +86,7 @@ function initCameraUI() {
 
     // -- fullscreen part
 
-    function fullScreenChange() {
+    /*function fullScreenChange() {
         if(screenfull.isFullscreen) {
             toggleFullScreenButton.setAttribute("aria-pressed", true);
         }
@@ -116,7 +109,7 @@ function initCameraUI() {
     }
     else {
         console.log("iOS doesn't support fullscreen (yet)");
-    }
+    }*/
 
     // -- switch camera part
     if(amountOfCameras > 1) {
@@ -135,7 +128,7 @@ function initCameraUI() {
 
     // Listen for orientation changes to make sure buttons stay at the side of the
     // physical (and virtual) buttons (opposite of camera) most of the layout change is done by CSS media queries
-    // https://www.sitepoint.com/introducing-screen-orientation-api/
+    // ht<button id="toggleFullScreenButton" name="toggle FullScreen" type="button" aria-prestps://www.sitepoint.com/introducing-screen-orientation-api/
     // https://developer.mozilla.org/en-US/docs/Web/API/Screen/orientation
     window.addEventListener("orientationchange", function() {
 
