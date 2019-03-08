@@ -10,7 +10,7 @@ body {
 }
 
 #camerasensor{
-    
+    position: absolute;
     top: 0px;
     left: 0px;
     -moz-transform: scaleX(-1);
