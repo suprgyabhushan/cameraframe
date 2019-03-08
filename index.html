@@ -8,19 +8,19 @@
   <title>Camera Frame</title>
   <script type="text/javascript" src="js/clmtrackr.js"></script>
   <!-- Load TensorFlow.js -->
-  <script src="https://unpkg.com/@tensorflow/tfjs"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
   <!-- Load Posenet -->
-  <script src="https://unpkg.com/@tensorflow-models/posenet">
-  </script>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/posenet"></script>
+
 
   <link rel="stylesheet" type="text/css" href="style1.css">
 </head>
 <body>
   <div id="container">
     <div id="vid_container">
-
-        <video id="video" width="320" height="240" autoplay playsinline></video>
-        <canvas id="camerasensor" width="320" height="240"></canvas>
+        <!--<img id='cat' src="img/cat.jpg"/>-->
+        <video id="video" width="320" height="320" autoplay playsinline></video>
+        <canvas id="camerasensor" width="320" height="320"></canvas>
         <canvas id="cameracrop" width="160" height="200"></canvas>
         <canvas id="cameramotion" width="160" height="200"></canvas>
         <canvas id="eyes" width="50" height="25"></canvas>
@@ -50,6 +50,65 @@
   <script src="js/howler.core.min.js"></script>
   <script src="js/main1.js"></script>
   <script src="js/creative_coding.js"></script>
+  <!--<script type="text/javascript">
+
+    var video = document.getElementById('video');
+    var w = video.width;
+    var h = video.height;
+    var overlay = document.getElementById('camerasensor');
+    var ctx = overlay.getContext('2d');
+    
+    var imageScaleFactor = 0.5;
+    var outputStride = 16;
+    var flipHorizontal = false;
+    var poses = [];
+    var minPoseConfidence = 0.1;
+    var minPartConfidence = 0.5;
+    var keypoints = [];
+
+
+    function start()
+    {
+        drawLoop();
+    }
+
+    function drawLoop()
+    {
+        
+        ctx.clearRect(0, 0, w, h);
+
+        posenet.load().then(function(net)
+        {
+            return net.estimateSinglePose(video, imageScaleFactor, flipHorizontal, outputStride)
+            }).then(function(pose){
+               keypoints = pose.keypoints;
+                
+               for(var i = 0; i < keypoints.length; i++) {
+                    var keypoint = keypoints[i];
+                    if (keypoint.score > minPartConfidence) {
+                    ctx.fillRect(keypoint.position.x,keypoint.position.y,10,10);}
+                    
+               }
+               
+        })
+        
+
+        
+
+        
+        
+
+        /*poses.forEach(({score, keypoints}) => {
+            if (score >= minPoseConfidence)
+            {
+                drawKeypoints(keypoints, minPartConfidence, ctx);
+            }       
+   
+        }*/
+
+        requestAnimationFrame(drawLoop);
+    }
+  </script>-->
   <script type="text/javascript">
 
     var video = document.getElementById('video');
@@ -153,12 +212,20 @@
 
   </script>
 
+  <!--<script>
+    var imageScaleFactor = 0.5;
+    var outputStride = 16;
+    var flipHorizontal = false;
 
+    var imageElement = document.getElementById('video');
 
+    posenet.load().then(function(net){
+      return net.estimateSinglePose(imageElement, imageScaleFactor, flipHorizontal, outputStride)
+    }).then(function(pose){
+      console.log(pose);
+    })
+  </script>-->
 
-
-
-
-
+  
 </body>
 </html>
