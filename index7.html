@@ -1,0 +1,246 @@
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, user-scalable=yes, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Smart Device Camera Template for HTML, CSS, JS and WebRTC">
+  <meta name="keywords" content="HTML,CSS,JavaScript, WebRTC, Camera">
+  <meta name="author" content="Kasper Kamperman">
+  <title>Camera Frame</title>
+  <script type="text/javascript" src="js/clmtrackr.js"></script>
+  <!-- Load TensorFlow.js -->
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+  <!-- Load Posenet -->
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/posenet"></script>
+
+
+  <link rel="stylesheet" type="text/css" href="style1.css">
+</head>
+<body>
+  <div id="container">
+    <div id="vid_container">
+        <!--<img id='cat' src="img/cat.jpg"/>-->
+        <video id="video" width="320" height="320" autoplay playsinline></video>
+        <canvas id="camerasensor" width="320" height="320"></canvas>
+        <canvas id="cameracrop" width="160" height="200"></canvas>
+        <canvas id="cameramotion" width="160" height="200"></canvas>
+        <canvas id="eyes" width="50" height="25"></canvas>
+        <style>
+        #eyes
+        {
+            position: absolute;
+            top: 0;
+            right: 0;
+        }
+        </style>
+
+        <div id="video_overlay"></div>
+    </div>
+    <div id="gui_controls">
+
+        <button id="switchCameraButton" name="switch Camera" type="button" aria-pressed="false"></button>
+        <button id="takePhotoButton" name="take Photo" type="button" onclick="take1()">	</button>
+        <button id="startFaceTrackingButton" name=" start FaceTracking" type="button" onclick="start()"></button>
+
+        <img src="//:0" alt="" id="cameraoutput">
+    </div>
+  </div>
+  <script src="js/DetectRTC.min.js"></script>
+  <script src="js/adapter.min.js"></script>
+  <script src="js/screenfull.min.js"></script>
+  <script src="js/howler.core.min.js"></script>
+  <script src="js/main1.js"></script>
+  <script src="js/creative_coding.js"></script>
+  <script type="text/javascript">
+
+    var video = document.getElementById('video');
+    var w = video.width;
+    var h = video.height;
+    var overlay = document.getElementById('camerasensor');
+    var ctx = overlay.getContext('2d');
+    
+    var imageScaleFactor = 0.5;
+    var outputStride = 16;
+    var flipHorizontal = false;
+    var poses = [];
+    var minPoseConfidence = 0.1;
+    var minPartConfidence = 0.5;
+    var keypoints = [];
+
+
+    function start()
+    {
+        drawLoop();
+    }
+
+    function drawLoop()
+    {
+        
+        ctx.clearRect(0, 0, w, h);
+
+        posenet.load().then(function(net)
+        {
+            return net.estimateSinglePose(video, imageScaleFactor, flipHorizontal, outputStride)
+            }).then(function(pose){
+               keypoints = pose.keypoints;
+               console.log(pose);
+                
+               for(var i = 0; i < keypoints.length; i++) {
+                    var keypoint = keypoints[i];
+                    if (keypoint.score > minPartConfidence) {
+                    ctx.fillRect(keypoint.position.x,keypoint.position.y,10,10);}
+                    
+               }
+               
+        })
+        
+
+        
+
+        
+        
+
+        /*poses.forEach(({score, keypoints}) => {
+            if (score >= minPoseConfidence)
+            {
+                drawKeypoints(keypoints, minPartConfidence, ctx);
+            }       
+   
+        }*/
+
+        
+    }
+    var tmp;
+    function f1() {
+        tmp = setTimeout("callitrept()", 2000);
+    }
+    function callitrept() {
+        document.getElementById("startFaceTrackingButton").click();
+    }
+
+   
+
+    setInterval(function () {document.getElementById("startFaceTrackingButton").click();}, 5000);
+
+
+
+  </script>
+  <!--<script type="text/javascript">
+
+    var video = document.getElementById('video');
+    var w = video.width;
+    var h = video.height;
+    var overlay = document.getElementById('camerasensor');
+    var ctx = overlay.getContext('2d');
+
+    var overlay1 = document.getElementById('cameracrop');
+    var ctx1 = overlay1.getContext('2d');
+
+    var cameraOutput = document.getElementById('cameraoutput');
+
+    var ctrack = new clm.tracker();
+    ctrack.init();
+    var trackingStarted = false;
+
+    function start() {
+        video.play();
+        ctrack.start(video);
+        trackingStarted = true;
+        drawLoop();
+    }
+
+    function drawLoop() {
+        requestAnimationFrame(drawLoop);
+        ctx.clearRect(0, 0, w, h);
+        if (ctrack.getCurrentPosition())
+        {
+            ctrack.draw(overlay);
+            const eyesRect = getEyesRectangle(ctrack.getCurrentPosition());
+            ctx.strokeStyle = 'red';
+            ctx.strokeRect(eyesRect[0], eyesRect[1], eyesRect[2], eyesRect[3]);
+            // The video might internally have a different size, so we need these
+            // factors to rescale the eyes rectangle before cropping:
+            const resizeFactorX = video.videoWidth / video.width;
+            const resizeFactorY = video.videoHeight / video.height;
+            // Crop the eyes from the video and paste them in the eyes canvas:
+            const eyesCanvas = $('#eyes')[0];
+            const eyesCC = eyesCanvas.getContext('2d');
+
+            eyesCC.drawImage(
+                video,
+                eyesRect[0] * resizeFactorX, eyesRect[1] * resizeFactorY,
+                eyesRect[2] * resizeFactorX, eyesRect[3] * resizeFactorY,
+                0, 0, eyesCanvas.width, eyesCanvas.height
+            );
+        }
+    }
+
+    function getEyesRectangle(positions) {
+        const minX = positions[23][0] - 5;
+        const maxX = positions[28][0] + 5;
+        const minY = positions[24][1] - 5;
+        const maxY = positions[26][1] + 5;
+
+        const width = maxX - minX;
+        const height = maxY - minY;
+
+        return [minX, minY, width, height];
+    }
+
+    function take1()
+    {
+        const eyesRect1 = getEyesRectangle(ctrack.getCurrentPosition());
+        if(eyesRect1[0] > 130)
+        {
+            take();
+        }
+    }
+
+
+    function take()
+    {
+        var canvas = document.createElement('canvas');
+
+        var width = video.videoWidth;
+        var height = video.videoHeight;
+
+        const resizeFactorX = video.videoWidth / video.width;
+        const resizeFactorY = video.videoHeight / video.height;
+
+        console.log(resizeFactorX);
+        console.log(resizeFactorY);
+
+        canvas.width = width;
+        canvas.height = height;
+
+        context = canvas.getContext('2d');
+        context.drawImage(video, 0, 0);
+
+        ctx1.drawImage(
+                video,
+                85 * resizeFactorX, 0 * resizeFactorY,
+                162 * resizeFactorX, 202 * resizeFactorY,
+                0, 0, overlay1.width, overlay1.height
+        );
+        cameraOutput.src = canvas.toDataURL("image/webp");
+        cameraOutput.classList.add("taken");
+    }
+
+  </script>-->
+
+  <!--<script>
+    var imageScaleFactor = 0.5;
+    var outputStride = 16;
+    var flipHorizontal = false;
+
+    var imageElement = document.getElementById('video');
+
+    posenet.load().then(function(net){
+      return net.estimateSinglePose(imageElement, imageScaleFactor, flipHorizontal, outputStride)
+    }).then(function(pose){
+      console.log(pose);
+    })
+  </script>-->
+
+  
+</body>
+</html>
